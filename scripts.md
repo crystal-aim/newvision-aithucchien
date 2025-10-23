@@ -1,6 +1,6 @@
 Minh: Xin kính chào quý vị thính giả đã quay trở lại với kênh podcast "Tâm An Tuổi Vàng", một chương trình của Hội Người cao tuổi Việt Nam. Tôi là Minh, người sẽ đồng hành cùng quý vị trong buổi trò chuyện ngày hôm nay.
 
-Trong thế giới số hối hả, đôi khi chúng ta vô tình tạo ra những khoảng cách vô hình với những người thân yêu, đặc biệt là khoảng cách giữa các thế hệ. Hôm nay, chúng ta sẽ cùng lắng nghe câu chuyện của một vị khách mời đặc biệt, cô Lan, năm nay 72 tuổi, một nhà giáo đã về hưu. Cô đang có những tâm sự sâu kín về nỗi niềm cảm thấy mình đang dần "vô hình" trong chính gia đình mình. Xin chào cô Lan ạ, cảm ơn cô đã nhận lời tham gia chương trình.
+Trong thế giới số hối hả, đôi khi chúng ta vô tình tạo ra những khoảng cách vô hình với những người thân yêu, đặc biệt là khoảng cách giữa các thế hệ. Hôm nay, chúng ta sẽ cùng lắng nghe câu chuyện của một vị khách mời đặc biệt, cô Lan, năm nay 62 tuổi, một nhà giáo đã về hưu. Cô đang có những tâm sự sâu kín về nỗi niềm cảm thấy mình đang dần "vô hình" trong chính gia đình mình. Xin chào cô Lan ạ, cảm ơn cô đã nhận lời tham gia chương trình.
 
 Thưa cô Lan, cháu hiểu rằng mỗi gia đình đều có những câu chuyện riêng. Cô có thể chia sẻ một chút về cuộc sống hàng ngày của mình, về những niềm vui và cả những trăn trở mà cô đang giữ trong lòng không ạ?
 
@@ -8,7 +8,7 @@ Cô Lan: Cảm ơn Minh. Tầm tuổi này thì cô cũng không có gì nhiều
 
 Cô Lan: Nhưng mà... niềm vui đó đôi khi ngắn ngủi lắm. Tụi nhỏ bây giờ bận rộn quá. Con trai cô ngồi ăn cơm mà điện thoại công việc cứ reo liên tục. Con dâu thì cũng phải tranh thủ trả lời email. Còn hai đứa cháu, ăn xong là mỗi đứa một cái điện thoại, một cái máy tính bảng. Tụi nó ngồi ngay trước mặt mình đó, mà cứ như ở thế giới nào á.
 
-Cô Lan: Cô cũng muốn hỏi han chuyện học hành, bạn bè của tụi nó, muốn kể chuyện ngày xưa... mà lại sợ làm phiền. Nhiều khi cô hỏi một tiếng và nó chỉ ừ hử qua loa rồi thôi. Thành ra mình cứ cảm giác như người vô hình trong chính nhà mình vậy đó, cháu ạ. (Ngập ngừng) Nhiều khi cô cũng tự hỏi, có phải mình đã già, đã lạc hậu quá rồi không...
+Cô Lan: Cô cũng muốn hỏi han chuyện học hành, bạn bè của tụi nó, muốn kể chuyện ngày xưa... mà lại sợ làm phiền. Nhiều khi cô hỏi một tiếng và nó chỉ ừ hử qua loa rồi thôi. Thành ra mình cứ cảm giác như người vô hình trong chính nhà mình vậy đó, cháu ạ. Nhiều khi cô cũng tự hỏi, có phải mình đã già, đã lạc hậu quá rồi không...
 
 
 Anh Minh: Dạ, cháu cảm ơn cô đã trải lòng mình. Cái cảm giác "vô hình" cô nói, nghe thật xót xa. Cháu tin là nhiều bậc cha mẹ, ông bà ngoài kia cũng có chung nỗi niềm này. Đây không phải chuyện của riêng nhà mình đâu cô ạ.
