@@ -7,33 +7,6 @@ import base64
 from scripts import dialogue
 from pydub import AudioSegment
 
-def concat_mp3(file1_path, file2_path, output_path):
-    """
-    Concatenates two MP3 files into a single file.
-
-    Args:
-        file1_path (str): Path to the first MP3 file.
-        file2_path (str): Path to the second MP3 file.
-        output_path (str): Path to save the combined MP3 file.
-    """
-    try:
-        # Load the two audio files
-        audio1 = AudioSegment.from_mp3(file1_path)
-        audio2 = AudioSegment.from_mp3(file2_path)
-
-        # Concatenate them
-        combined_audio = audio1 + audio2
-
-        # Export the result
-        combined_audio.export(output_path, format="mp3")
-        print(f"Successfully concatenated '{file1_path}' and '{file2_path}' to '{output_path}'")
-
-    except FileNotFoundError as e:
-        print(f"Error: {e}. Please check the file paths.")
-    except Exception as e:
-        print(f"An unexpected error occurred during concatenation: {e}")
-
-
 def convert_curl_to_python():
     """
     Converts the given curl command to a Python script using the requests library.
@@ -102,9 +75,4 @@ def convert_curl_to_python():
         print(f"An unexpected error occurred: {e}")
 
 if __name__ == "__main__":
-    # convert_curl_to_python()
-
-    # Example usage for the concatenation function:
-    # Make sure you have two mp3 files named 'audio1.mp3' and 'audio2.mp3'
-    # in the same directory as this script, or provide the correct paths.
-    concat_mp3('audio1.mp3', 'audio2.mp3', 'combined_audio.mp3')
+    convert_curl_to_python()

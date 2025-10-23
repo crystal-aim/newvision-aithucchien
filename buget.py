@@ -1,9 +1,10 @@
 from dotenv import load_dotenv
+load_dotenv()
+
 import http.client
 import json
 import os
 
-load_dotenv()
 
 conn = http.client.HTTPSConnection("api.thucchien.ai")
 payload = ''
