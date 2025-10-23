@@ -4,6 +4,7 @@ import requests
 import json
 import base64
 
+from scripts import dialogue
 
 def convert_curl_to_python():
     """
@@ -19,7 +20,7 @@ def convert_curl_to_python():
     data = {
         "contents": [{
             "parts": [{
-                "text": "TTS the following conversation between Anh Minh and Cô Lan:\n                Cô Lan: (Thở dài) Cô cũng muốn hỏi han chuyện học hành, bạn bè của tụi nó, muốn kể chuyện ngày xưa... mà lại sợ làm phiền. Nhiều khi cô hỏi một tiếng và nó chỉ ừ hử qua loa rồi thôi. Thành ra mình cứ cảm giác như người vô hình trong chính nhà mình vậy đó, cháu ạ. (Ngập ngừng) Nhiều khi cô cũng tự hỏi, có phải mình đã già, đã lạc hậu quá rồi không...\n                Anh Minh: Dạ, cháu cảm ơn cô đã trải lòng mình. Cái cảm giác 'vô hình' cô nói, nghe thật xót xa. Cháu tin là nhiều bậc cha mẹ, ông bà ngoài kia cũng có chung nỗi niềm này. Đây không phải chuyện của riêng nhà mình đâu cô ạ."
+                "text": f"TTS the following conversation between Anh Minh (a 36-year-old therapist) and Cô Lan (a retired 62-year-old teacher):\n{dialogue}"
             }]
         }],
         "generationConfig": {
