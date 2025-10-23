@@ -1,79 +1,124 @@
 import requests
 import os
-from pathlib import Path
-import time
+import base64
+from pydub import AudioSegment
+from pydub.playback import play
+import re
 
-# Danh sách các giọng nói
-voices = [
-    "Zephyr", "Puck", "Charon", "Kore", "Fenrir", "Leda", "Orus", "Aoede", 
-    "Callirrhoe", "Autonoe", "Enceladus", "Iapetus", "Umbriel", "Algieba", 
-    "Despina", "Erinome", "Algenib", "Rasalgethi", "Laomedeia", "Achernar", 
-    "Alnilam", "Schedar", "Gacrux", "Pulcherrima", "Achird", "Zubenelgenubi", 
-    "Vindemiatrix", "Sadachbia", "Sadaltager", "Sulafat"
-]
-
-# Tạo thư mục voice_outputs nếu chưa có
-output_dir = Path("voice_outputs")
-output_dir.mkdir(exist_ok=True)
-
-# API configuration
-url = "https://api.thucchien.ai/audio/speech"
-headers = {
-    "Content-Type": "application/json",
-    "Authorization": "Bearer sk-kTSjM-tT7bjDjfJHuw8u-g"
-}
-
-# Văn bản mẫu để test
-sample_text = "Xin chào, đây là một thử nghiệm chuyển văn bản thành giọng nói qua AI Thực Chiến gateway."
-
-print(f"Bắt đầu tải {len(voices)} giọng mẫu...")
-print("=" * 60)
-
-success_count = 0
-failed_voices = []
-
-for i, voice in enumerate(voices, 1):
+def get_podcast_content(file_path="podcast-content.md"):
+    """Reads the podcast script from a markdown file."""
     try:
-        print(f"[{i}/{len(voices)}] Đang tải giọng: {voice}... ", end="")
-        
-        # Tạo payload
-        payload = {
-            "model": "gemini-2.5-flash-preview-tts",
-            "input": sample_text,
-            "voice": voice
-        }
-        
-        # Gọi API
-        response = requests.post(url, json=payload, headers=headers, timeout=30)
-        
-        # Kiểm tra response
-        if response.status_code == 200:
-            # Lưu file MP3
-            output_file = output_dir / f"{voice}.mp3"
-            with open(output_file, "wb") as f:
-                f.write(response.content)
-            
-            file_size = len(response.content) / 1024  # KB
-            print(f"✓ Thành công ({file_size:.1f} KB)")
-            success_count += 1
-        else:
-            print(f"✗ Lỗi (HTTP {response.status_code})")
-            failed_voices.append(voice)
-            
-    except Exception as e:
-        print(f"✗ Lỗi: {str(e)}")
-        failed_voices.append(voice)
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return f.read()
+    except FileNotFoundError:
+        print(f"Lỗi: Không tìm thấy tệp '{file_path}'.")
+        return None
+
+def convert_text_to_speech(api_key, text_content):
+    """Calls the Gemini TTS API and returns the raw audio data."""
+    url = "https://api.thucchien.ai/audio/v1beta/models/gemini-2.5-flash-preview-tts:generateContent"
     
-    # Delay nhỏ giữa các request để tránh rate limit
-    if i < len(voices):
-        time.sleep(0.5)
+    headers = {
+        "x-goog-api-key": api_key,
+        "Content-Type": "application/json",
+    }
 
-print("=" * 60)
-print(f"\nHoàn thành!")
-print(f"✓ Thành công: {success_count}/{len(voices)}")
-print(f"✗ Thất bại: {len(failed_voices)}/{len(voices)}")
+    # Extract conversation for the TTS engine
+    # We will format it to clearly distinguish speakers.
+    conversation = ""
+    # Use regex to find speaker lines like __Anh Minh:__ or __Cô Lan:__
+    lines = re.findall(r"__([A-Za-z\s]+):__\s*\((.*?)\)\s*(.*)", text_content)
+    
+    # Reconstruct the text for the TTS model
+    tts_text = "TTS the following conversation between Anh Minh and Cô Lan:\n"
+    for speaker, _, line in lines:
+        speaker_name = "Anh Minh" if "Minh" in speaker else "Cô Lan"
+        tts_text += f"{speaker_name}: {line.strip()}\n"
 
-if failed_voices:
-    print(f"\nCác giọng thất bại: {', '.join(failed_voices)}")
+    payload = {
+        "contents": [{
+            "parts": [{"text": tts_text}]
+        }],
+        "generationConfig": {
+            "responseModalities": ["AUDIO"],
+            "speechConfig": {
+                "multiSpeakerVoiceConfig": {
+                    "speakerVoiceConfigs": [
+                        {
+                            "speaker": "Anh Minh",
+                            "voiceConfig": {"prebuiltVoiceConfig": {"voiceName": "Kore"}}
+                        }, 
+                        {
+                            "speaker": "Cô Lan",
+                            "voiceConfig": {"prebuiltVoiceConfig": {"voiceName": "Puck"}}
+                        }
+                    ]
+                }
+            }
+        },
+        "model": "gemini-2.5-flash-preview-tts",
+    }
 
-print(f"\nCác file đã được lưu vào thư mục: {output_dir.absolute()}")%     
+    print("Đang gửi yêu cầu đến Google Gemini TTS API...")
+    response = requests.post(url, headers=headers, json=payload)
+
+    if response.status_code == 200:
+        print("Yêu cầu thành công!")
+        response_data = response.json()
+        try:
+            audio_data_b64 = response_data['candidates'][0]['content']['parts'][0]['inlineData']['data']
+            return base64.b64decode(audio_data_b64)
+        except (KeyError, IndexError) as e:
+            print(f"Lỗi: Không tìm thấy dữ liệu âm thanh trong phản hồi API. {e}")
+            print("Phản hồi đầy đủ:", response.text)
+            return None
+    else:
+        print(f"Lỗi API: {response.status_code}")
+        print(response.text)
+        return None
+
+def save_and_process_audio(raw_data, output_filename="podcast_output.wav"):
+    """Saves raw PCM data to a WAV file using pydub."""
+    if not raw_data:
+        print("Không có dữ liệu âm thanh để xử lý.")
+        return
+
+    try:
+        # The API returns PCM audio at 24000 Hz, 16-bit, single-channel (mono)
+        print("Đang xử lý dữ liệu âm thanh bằng pydub...")
+        audio_segment = AudioSegment(
+            data=raw_data,
+            sample_width=2,  # 16-bit = 2 bytes
+            frame_rate=24000,
+            channels=1
+        )
+        
+        print(f"Đang lưu file âm thanh vào '{output_filename}'...")
+        audio_segment.export(output_filename, format="wav")
+        print(f"Đã lưu file thành công! Bạn có thể mở '{output_filename}'.")
+        
+        # Optional: Play the audio
+        # print("Đang phát âm thanh...")
+        # play(audio_segment)
+
+    except Exception as e:
+        print(f"Lỗi khi xử lý hoặc lưu file âm thanh: {e}")
+
+def main():
+    """Main function to run the TTS conversion."""
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        print("Lỗi: Vui lòng thiết lập biến môi trường 'GEMINI_API_KEY'.")
+        return
+
+    podcast_script = get_podcast_content()
+    if not podcast_script:
+        return
+
+    raw_audio_data = convert_text_to_speech(api_key, podcast_script)
+    
+    if raw_audio_data:
+        save_and_process_audio(raw_audio_data)
+
+if __name__ == "__main__":
+    main()
